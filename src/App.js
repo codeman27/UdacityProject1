@@ -59,11 +59,23 @@ class BooksApp extends Component {
           },
         ]
       }
+
+  changeBookShelf = (book, newShelf) => {
+    this.setState( (state) => {
+      books: state.books.map(function(b){
+        if(book.id === b.id){
+          b.shelf= newShelf
+        }
+      })
+    })
+  }
+
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={() => (
           <BookList
+            onChangeBookShelf={this.changeBookShelf}
             books={this.state.books}
           />
         )}></Route>
