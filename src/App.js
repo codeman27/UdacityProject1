@@ -61,6 +61,7 @@ class BooksApp extends Component {
       }
 
   changeBookShelf = (book, newShelf) => {
+    console.log(book, newShelf);
     this.setState( (state) => {
       books: state.books.map(function(b){
         if(book.id === b.id){

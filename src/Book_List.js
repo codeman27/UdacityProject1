@@ -5,6 +5,7 @@ import WantToRead from './Want_To_Read';
 import Read from './Read';
 
 const BookList = (props) => {
+  console.log(props.onChangeBookShelf);
   return (
     <div className="list-books">
       <div className="list-books-title">
@@ -12,13 +13,19 @@ const BookList = (props) => {
       </div>
       <div className="list-books-content">
         <div>
-          <CurrentlyReading books={props.books.filter(function(book){
+          <CurrentlyReading
+            onChangeBookShelf={props.onChangeBookShelf}
+            books={props.books.filter(function(book){
             return book.shelf === "Currently Reading"
           })} />
-          <WantToRead books={props.books.filter(function(book){
+          <WantToRead
+            onChangeBookShelf={props.onChangeBookShelf}
+            books={props.books.filter(function(book){
             return book.shelf === "Want to Read"
           })} />
-          <Read books={props.books.filter(function(book){
+          <Read
+            onChangeBookShelf={props.onChangeBookShelf}
+            books={props.books.filter(function(book){
             return book.shelf === "Read"
           })}/>
         </div>
