@@ -1,9 +1,7 @@
 import React from 'react';
 
-const CurrentlyReading = (props) => {
+const BookShelf = (props) => {
   return (
-    <div className="bookshelf">
-      <h2 className="bookshelf-title">Currently Reading</h2>
       <div className="bookshelf-books">
         <ol className="books-grid">
           {props.books.map(function(book){
@@ -11,9 +9,9 @@ const CurrentlyReading = (props) => {
               <li key={book.id}>
                 <div className="book">
                   <div className="book-top">
-                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.image})` }}></div>
+                    <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${book.imageLinks.thumbnail})` }}></div>
                     <div className="book-shelf-changer">
-                      <select onChange={ (event) => props.onChangeBookShelf(book, event.target[event.target.selectedIndex].text)}>
+                      <select value={book.shelf} onChange={ (event) => props.onChangeBookShelf(book, event.target.value)}>
                         <option value="none" disabled>Move to...</option>
                         <option value="currentlyReading">Currently Reading</option>
                         <option value="wantToRead">Want to Read</option>
@@ -23,15 +21,14 @@ const CurrentlyReading = (props) => {
                     </div>
                   </div>
                   <div className="book-title">{book.title}</div>
-                  <div className="book-authors">{book.author}</div>
+                  <div className="book-authors">{book.authors}</div>
                 </div>
               </li>
             )
           })}
         </ol>
       </div>
-    </div>
   );
 };
 
-export default CurrentlyReading;
+export default BookShelf;

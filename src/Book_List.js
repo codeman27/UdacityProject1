@@ -1,32 +1,36 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import CurrentlyReading from './Currently_Reading';
-import WantToRead from './Want_To_Read';
-import Read from './Read';
+import BookShelf from './Book_Shelf';
 
 const BookList = (props) => {
-  console.log(props.onChangeBookShelf);
   return (
     <div className="list-books">
       <div className="list-books-title">
         <h1>MyReads</h1>
       </div>
       <div className="list-books-content">
-        <div>
-          <CurrentlyReading
+          <div className="bookshelf">
+            <h2 className="bookshelf-title">Currently Reading</h2>
+            <BookShelf
+              onChangeBookShelf={props.onChangeBookShelf}
+              books={props.books.filter(function(book){
+                return book.shelf === "currentlyReading"
+            })} />
+          </div>
+          <div className="bookshelf">
+            <h2 className="bookshelf-title">Want To Read</h2>
+            <BookShelf
+              onChangeBookShelf={props.onChangeBookShelf}
+              books={props.books.filter(function(book){
+                return book.shelf === "wantToRead"
+            })} />
+        </div>
+        <div className="bookshelf">
+          <h2 className="bookshelf-title">Read</h2>
+          <BookShelf
             onChangeBookShelf={props.onChangeBookShelf}
             books={props.books.filter(function(book){
-            return book.shelf === "Currently Reading"
-          })} />
-          <WantToRead
-            onChangeBookShelf={props.onChangeBookShelf}
-            books={props.books.filter(function(book){
-            return book.shelf === "Want to Read"
-          })} />
-          <Read
-            onChangeBookShelf={props.onChangeBookShelf}
-            books={props.books.filter(function(book){
-            return book.shelf === "Read"
+              return book.shelf === "read"
           })}/>
         </div>
       </div>
