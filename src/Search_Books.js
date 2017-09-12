@@ -9,7 +9,13 @@ class SearchBooks extends Component {
   }
 
   onInputChange(term){
-    console.log(term);
+    term.length > 0 &&
+    console.log(this.state.searchResults[0])
+    BooksAPI.search(term, 5).then(data => {
+      console.log(data)
+      this.setState({searchResults: data})
+    })
+
   }
 
   render(){
@@ -36,10 +42,13 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
-            <Bookshelf
-              onChangeBookShelf={this.props.onChangeBookShelf}
-              books={this.state.searchResults}
-            />
+            {this.state.searchResults.length > 0 ?
+              <Bookshelf
+                onChangeBookShelf={this.props.onChangeBookShelf}
+                books={this.state.searchResults}
+              /> :
+              <h1>No matches</h1>
+            }
           </ol>
         </div>
       </div>

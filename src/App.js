@@ -12,18 +12,28 @@ class BooksApp extends Component {
 
   componentDidMount(){
     BooksAPI.getAll().then((books) => {
-      this.setState({books: books})
+      this.setState({books})
     })
   }
 
   changeBookShelf = (book, newShelf) => {
-    this.setState( (state) => {
-      books: state.books.map(function(b){
-        if(book.id === b.id){
-          b.shelf= newShelf
-        }
+    if(this.state.books.includes(book)){
+      console.log('the book is in state')
+      this.setState( (state) => {
+        books: state.books.map(function(b){
+          if(book.id === b.id){
+            b.shelf= newShelf
+          }
+        })
       })
-    })
+    }
+    else{
+      this.setState( (state) => {
+        console.log(state)
+        books: [...state.books, book]
+      })
+    }
+
     BooksAPI.update(book, newShelf)
   }
 
