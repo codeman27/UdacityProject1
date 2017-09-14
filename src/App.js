@@ -28,13 +28,17 @@ class BooksApp extends Component {
       })
     }
     else{
-      this.setState( (state) => {
-        console.log(state)
-        books: [...state.books, book]
+      BooksAPI.get(book.id).then((newBook) => {
+        newBook.shelf = newShelf
+        console.log(newBook);
+        this.setState( (state) => {
+          console.log("setting state")
+          return {books: [...state.books, newBook]}
+        })
       })
     }
 
-    BooksAPI.update(book, newShelf)
+    //BooksAPI.update(book, newShelf)
   }
 
   render() {
