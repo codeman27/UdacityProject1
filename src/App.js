@@ -18,7 +18,6 @@ class BooksApp extends Component {
 
   changeBookShelf = (book, newShelf) => {
     if(this.state.books.includes(book)){
-      console.log('the book is in state')
       this.setState( (state) => {
         books: state.books.map(function(b){
           if(book.id === b.id){
@@ -30,15 +29,13 @@ class BooksApp extends Component {
     else{
       BooksAPI.get(book.id).then((newBook) => {
         newBook.shelf = newShelf
-        console.log(newBook);
         this.setState( (state) => {
-          console.log("setting state")
           return {books: [...state.books, newBook]}
         })
       })
     }
 
-    //BooksAPI.update(book, newShelf)
+    BooksAPI.update(book, newShelf)
   }
 
   render() {
