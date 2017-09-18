@@ -1,7 +1,7 @@
-import React, { Component } from 'react'
-import * as BooksAPI from './BooksAPI'
+import React, { Component } from 'react';
+import * as BooksAPI from './BooksAPI';
 import { Route } from 'react-router-dom';
-import './App.css'
+import './App.css';
 import SearchBooks from './Search_Books';
 import BookList from './Book_List';
 
@@ -16,26 +16,16 @@ class BooksApp extends Component {
     })
   }
 
-  changeBookShelf = (book, newShelf) => {
-    if(this.state.books.includes(book)){
-      this.setState( (state) => {
-        books: state.books.map(function(b){
-          if(book.id === b.id){
-            b.shelf= newShelf
-          }
-        })
-      })
-    }
-    else{
-      BooksAPI.get(book.id).then((newBook) => {
-        newBook.shelf = newShelf
-        this.setState( (state) => {
-          return {books: [...state.books, newBook]}
-        })
-      })
-    }
+  changeBookShelf = (book, shelf) => {
+    if(book.shelf !== shelf){
+      BooksAPI.update(book, shelf).then(() => {
+        book.shelf = shelf
 
-    BooksAPI.update(book, newShelf)
+        this.setState(state => ({
+          books: state.books.filter(b => b.id !== book.id).concat(book)
+        }))
+      })
+    }
   }
 
   render() {
@@ -50,6 +40,7 @@ class BooksApp extends Component {
         <Route path="/search" render={() => (
           <SearchBooks
             onChangeBookShelf={this.changeBookShelf}
+            books={this.state.books}
           />
         )}></Route>
       </div>

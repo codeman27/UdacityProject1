@@ -3,17 +3,20 @@ import { Link } from 'react-router-dom';
 import Bookshelf from './Book_Shelf';
 import * as BooksAPI from './BooksAPI';
 
+const bookResultArr = []
+
 class SearchBooks extends Component {
   state= {
-    searchResults: []
+    searchResults: [],
+    searchTerm: '',
+    bookResults: []
   }
 
   onInputChange(term){
     if(term){
-      console.log(term)
+      this.setState({searchTerm: term})
       BooksAPI.search(term, 20).then(data => {
         this.setState({searchResults: data})
-        console.log(this.state.searchResults)
       })
     }
   }
@@ -33,10 +36,15 @@ class SearchBooks extends Component {
         </div>
         <div className="search-books-results">
           <ol className="books-grid">
+              {this.state.searchResults.length > 0 ?
               <Bookshelf
                 onChangeBookShelf={this.props.onChangeBookShelf}
                 books={this.state.searchResults}
-              />
+              /> : this.state.searchTerm.length > 0 ?
+              <h1>Sorry, No Books :(</h1>
+              :
+              <h1>Search for some books!</h1>
+            }
           </ol>
         </div>
       </div>
