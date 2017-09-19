@@ -16,18 +16,16 @@ class SearchBooks extends Component {
       const tempArray = [];
       this.setState({searchTerm: term});
       BooksAPI.search(term, 20).then(data => {
-        this.setState({searchResults: data})
-      });
-      //https://stackoverflow.com/questions/39452083/using-promise-function-inside-javascript-array-map
-      this.state.searchResults.map((book) => BooksAPI.get(book.id).then(data => tempArray.push(data)));
-      this.onSearchResultChange(tempArray);
-      console.log(tempArray);
+        this.setState({searchResults: data}, () => {
+          const promises = this.state.searchResults.map((book) => BooksAPI.get(book.id).then(data => tempArray.push(data)));
+          Promise.all(promises).then(() => this.onSearchResultChange(tempArray));
+        });
+      })
     }
   }
 
   onSearchResultChange(bookResults){
     this.setState({bookResults});
-    //console.log(this.state.bookResults);
   }
 
   render(){
